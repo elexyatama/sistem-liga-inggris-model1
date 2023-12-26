@@ -251,7 +251,7 @@ func printGameWeek(leagues league, gw int) {
 func printMatch(leagues league, gw int, x int) {
 	fmt.Printf("Match %d\n : ", x+1)
 	fmt.Printf("%-5s - %-5s\n", leagues.schedule[gw].matches[x].home.name, leagues.schedule[gw].matches[x].away.name)
-	fmt.Printf("%-5s - %-5s\n", leagues.schedule[gw].matches[x].homeScore, leagues.schedule[gw].matches[x].awayScore)
+	fmt.Printf("%-5d - %-5d\n", leagues.schedule[gw].matches[x].homeScore, leagues.schedule[gw].matches[x].awayScore)
 }
 
 func printLeaderboard(l league) {
@@ -330,7 +330,7 @@ func processScoring(leagues *league, gw int) {
 func processEditScoring(league *league, cgw int) {
 	var input int
 	for i := 0; i < cgw; i++ {
-		fmt.Printf("%d. Game week %d\n", i+1)
+		fmt.Printf("%d. Game week %d\n", i+1, i+1)
 	}
 	fmt.Printf("Choose game week (1-%d) : ", cgw+1)
 	fmt.Scan(&input)
@@ -380,5 +380,5 @@ func minusScoring(leagues *league, gw int) {
 func processEndSeason(leagues league) {
 	sortByPoints(&leagues)
 	printLeaderboard(leagues)
-	fmt.Printf("%s WINS THE LEAGUE\n", leagues.clubs[0])
+	fmt.Printf("%s WINS THE LEAGUE\n", leagues.clubs[0].name)
 }

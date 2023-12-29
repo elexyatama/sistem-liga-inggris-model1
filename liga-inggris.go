@@ -308,10 +308,6 @@ func processScoring(leagues *league, gw int) {
 		homeIndex := searchClubName(*leagues, leagues.schedule[gw].matches[i].home.name)
 		awayIndex := searchClubName(*leagues, leagues.schedule[gw].matches[i].away.name)
 
-		fmt.Println(leagues.schedule[gw].matches[i].home.name)
-		fmt.Println(leagues.schedule[gw].matches[i].away.name)
-		fmt.Println(homeIndex)
-		fmt.Println(awayIndex)
 		leagues.clubs[homeIndex].gf += goalHome
 		leagues.clubs[homeIndex].ga += goalAway
 		leagues.clubs[awayIndex].gf += goalAway

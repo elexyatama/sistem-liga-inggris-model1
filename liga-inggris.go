@@ -35,8 +35,9 @@ func main() {
 	var premierLeague league
 	var input int = 99
 	for input != 0 {
-		sortByName(&premierLeague)
+		fmt.Println("---------------------------------------")
 		printClubNames(premierLeague)
+		fmt.Println("---------------------------------------")
 		fmt.Println("1. Add club")
 		fmt.Println("2. Delete club")
 		fmt.Println("3. Edit club")
@@ -62,10 +63,12 @@ func main() {
 func seasonMenu(leagues *league) {
 	var input int = 99
 	var gameWeek = 0
+	fmt.Println("---------------------------------------")
 	fmt.Println("Generating double round robin for match schedule . . .")
 	generateSchedule(leagues)
 	fmt.Println("Schedule generated")
 	printAllGameWeek(*leagues)
+	sortByName(leagues)
 	for input != 0 {
 		fmt.Printf("Game week %d\n", gameWeek+1)
 		printGameWeek(*leagues, gameWeek)
@@ -234,12 +237,14 @@ func rotateRobin(leagues *league) {
 }
 
 func printAllGameWeek(leagues league) {
+	fmt.Println("---------------------------------------")
 	for i := 0; i < (leagues.nClub-1)*2; i++ {
-		fmt.Printf("Game week %d : ", i+1)
+		fmt.Printf("Game week %d : \n", i+1)
 		for j := 0; j < leagues.nClub/2; j++ {
 			fmt.Printf("%s - %s\n", leagues.schedule[i].matches[j].home.name, leagues.schedule[i].matches[j].away.name)
 		}
 	}
+	fmt.Println("---------------------------------------")
 }
 
 func printGameWeek(leagues league, gw int) {
@@ -249,16 +254,16 @@ func printGameWeek(leagues league, gw int) {
 }
 
 func printMatch(leagues league, gw int, x int) {
-	fmt.Printf("Match %d\n : ", x+1)
-	fmt.Printf("%-5s - %-5s\n", leagues.schedule[gw].matches[x].home.name, leagues.schedule[gw].matches[x].away.name)
-	fmt.Printf("%-5d - %-5d\n", leagues.schedule[gw].matches[x].homeScore, leagues.schedule[gw].matches[x].awayScore)
+	fmt.Printf("Match %d : \n", x+1)
+	fmt.Printf("%-3s - %-3s\n", leagues.schedule[gw].matches[x].home.name, leagues.schedule[gw].matches[x].away.name)
+	fmt.Printf("%-3d - %-3d\n", leagues.schedule[gw].matches[x].homeScore, leagues.schedule[gw].matches[x].awayScore)
 }
 
 func printLeaderboard(l league) {
-	fmt.Printf("%-20s%-5s%-5s%-5s%-5s%-5s%-5s%-5s\n", "Club", "Win", "Draw", "Lose", "Pts", "GF", "GA", "GD")
+	fmt.Printf("%-20s%-5s%-5s%-5s%-5s%-5s%-5s%-5s\n", "Club", "Win", "Draw", "Lose", "GF", "GA", "GD", "Pts")
 	for i := 0; i < l.nClub; i++ {
 		c := l.clubs[i]
-		fmt.Printf("%-20s%-5d%-5d%-5d%-5d%-5d%-5d%-5d\n", c.name, c.win, c.draw, c.lose, c.point, c.gf, c.ga, c.gf-c.ga)
+		fmt.Printf("%-20s%-5d%-5d%-5d%-5d%-5d%-5d%-5d\n", c.name, c.win, c.draw, c.lose, c.gf, c.ga, c.gf-c.ga, c.point)
 	}
 }
 
@@ -269,14 +274,14 @@ func processViewLeaderboard(leagues league) {
 		printLeaderboard(leagues)
 		fmt.Println("1. Sort by name")
 		fmt.Println("2. Sort by point")
-		fmt.Println("3. return")
+		fmt.Println("0. return")
 		fmt.Print("Input : ")
 		fmt.Scan(&input)
 		if input == 1 {
 			sortByName(&leagues)
 		} else if input == 2 {
 			sortByPoints(&leagues)
-		} else if input == 3 {
+		} else if input == 0 {
 			fmt.Println("Returning to game week menu")
 		} else {
 			fmt.Println("Unknown input")
@@ -302,6 +307,11 @@ func processScoring(leagues *league, gw int) {
 
 		homeIndex := searchClubName(*leagues, leagues.schedule[gw].matches[i].home.name)
 		awayIndex := searchClubName(*leagues, leagues.schedule[gw].matches[i].away.name)
+
+		fmt.Println(leagues.schedule[gw].matches[i].home.name)
+		fmt.Println(leagues.schedule[gw].matches[i].away.name)
+		fmt.Println(homeIndex)
+		fmt.Println(awayIndex)
 		leagues.clubs[homeIndex].gf += goalHome
 		leagues.clubs[homeIndex].ga += goalAway
 		leagues.clubs[awayIndex].gf += goalAway
